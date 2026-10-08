@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>El Classico Beach - Table Booking</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>El Classico Beach</h1>
+
+        <p>Chez West - Table Booking</p>
+
+    </header>
+
+    <main>
+
+        <section class="booking-box">
+
+            <h2>Book a Table</h2>
+
+            <p>Reserve your table online</p>
+
+            <form id="bookingForm">
+
+                <label for="name">Full Name</label>
+
+                <input type="text" id="name" placeholder="Enter your name" required>
+
+                <label for="phone">Phone Number</label>
+
+                <input type="tel" id="phone" placeholder="07XXXXXXXX" required>
+
+                <label for="date">Date</label>
+
+                <input type="date" id="date" required>
+
+                <label for="time">Time</label>
+
+                <input type="time" id="time" required>
+
+                <label for="guests">Number of Guests</label>
+
+                <select id="guests" required>
+
+                    <option value="">Select guests</option>
+
+                    <option value="1">1 person</option>
+
+                    <option value="2">2 people</option>
+
+                    <option value="3">3 people</option>
+
+                    <option value="4">4 people</option>
+
+                    <option value="5">5 people</option>
+
+                    <option value="6">6 people</option>
+
+                    <option value="7">7 people</option>
+
+                    <option value="8">8 people</option>
+
+                </select>
+
+                <label for="message">Special Request</label>
+
+                <textarea id="message" placeholder="Any special request?"></textarea>
+
+                <button type="submit">Book My Table</button>
+
+            </form>
+
+            <div id="bookingStatus" style="margin-top: 25px;"></div>
+
+            <div id="confirmation"></div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>© 2026 El Classico Beach - Chez West</p>
+
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

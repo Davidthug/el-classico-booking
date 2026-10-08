@@ -1,0 +1,163 @@
+* {
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f4f4f4;
+
+    color: #222;
+
+}
+
+header {
+
+    background: #111;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 30px 15px;
+
+}
+
+header h1 {
+
+    margin-bottom: 8px;
+
+}
+
+main {
+
+    padding: 30px 15px;
+
+}
+
+.booking-box {
+
+    max-width: 500px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+
+}
+
+.booking-box h2 {
+
+    text-align: center;
+
+    margin-bottom: 8px;
+
+}
+
+.booking-box p {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+}
+
+form {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+label {
+
+    margin-top: 15px;
+
+    margin-bottom: 6px;
+
+    font-weight: bold;
+
+}
+
+input,
+
+select,
+
+textarea {
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+}
+
+textarea {
+
+    min-height: 90px;
+
+    resize: vertical;
+
+}
+
+button {
+
+    margin-top: 25px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #111;
+
+    color: white;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+button:hover {
+
+    background: #333;
+
+}
+
+#confirmation {
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+}
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    margin-top: 20px;
+
+}

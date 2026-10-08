@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>El Classico - Admin Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+    * {
+
+        box-sizing: border-box;
+
+    }
+
+    body {
+
+        margin: 0;
+
+        font-family: Arial, sans-serif;
+
+        background: #f4f4f4;
+
+        color: #222;
+
+    }
+
+    header {
+
+        background: #111;
+
+        color: white;
+
+        text-align: center;
+
+        padding: 25px 15px;
+
+    }
+
+    header h1 {
+
+        margin: 0 0 8px;
+
+        font-size: 32px;
+
+    }
+
+    header p {
+
+        margin: 0;
+
+        font-size: 16px;
+
+    }
+
+    .dashboard {
+
+        width: 100%;
+
+        max-width: 1100px;
+
+        margin: auto;
+
+        padding: 25px 20px;
+
+    }
+
+    .dashboard-header {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 20px;
+
+    }
+
+    .dashboard-header h2 {
+
+        margin: 0;
+
+        font-size: 28px;
+
+    }
+
+    .refresh-btn {
+
+        width: auto;
+
+        background: #111;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 20px;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        font-size: 16px;
+
+        margin: 0 0 20px;
+
+    }
+
+    .refresh-btn:hover {
+
+        background: #333;
+
+    }
+
+    .booking-card {
+
+        background: white;
+
+        border-radius: 14px;
+
+        padding: 22px;
+
+        margin-bottom: 20px;
+
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+
+    }
+
+    .booking-card h3 {
+
+        margin: 0 0 15px;
+
+        font-size: 21px;
+
+    }
+
+    .booking-card p {
+
+        text-align: left;
+
+        margin: 9px 0;
+
+        line-height: 1.5;
+
+    }
+
+    .status {
+
+        display: inline-block;
+
+        padding: 7px 14px;
+
+        border-radius: 20px;
+
+        font-weight: bold;
+
+        margin-top: 10px;
+
+    }
+
+    .pending {
+
+        background: #fff3cd;
+
+        color: #856404;
+
+    }
+
+    .confirmed {
+
+        background: #d4edda;
+
+        color: #155724;
+
+    }
+
+    .cancelled {
+
+        background: #f8d7da;
+
+        color: #721c24;
+
+    }
+
+    .actions {
+
+        display: flex;
+
+        gap: 12px;
+
+        margin-top: 18px;
+
+    }
+
+    .actions button {
+
+        flex: 1;
+
+        margin: 0;
+
+        padding: 12px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        color: white;
+
+        font-size: 15px;
+
+        cursor: pointer;
+
+    }
+
+    .confirm-btn {
+
+        background: #198754;
+
+    }
+
+    .cancel-btn {
+
+        background: #dc3545;
+
+    }
+
+    footer {
+
+        text-align: center;
+
+        padding: 25px 15px;
+
+        margin-top: 20px;
+
+    }
+
+    /* 📱 MOBILE PHONE */
+
+    @media (max-width: 600px) {
+
+        header {
+
+            padding: 20px 12px;
+
+        }
+
+        header h1 {
+
+            font-size: 25px;
+
+        }
+
+        header p {
+
+            font-size: 14px;
+
+        }
+
+        .dashboard {
+
+            padding: 18px 12px;
+
+        }
+
+        .dashboard-header {
+
+            display: block;
+
+        }
+
+        .dashboard-header h2 {
+
+            font-size: 23px;
+
+            margin-bottom: 15px;
+
+        }
+
+        .refresh-btn {
+
+            width: 100%;
+
+            font-size: 16px;
+
+            padding: 13px;
+
+        }
+
+        .booking-card {
+
+            padding: 17px;
+
+            margin-bottom: 15px;
+
+            border-radius: 12px;
+
+        }
+
+        .booking-card h3 {
+
+            font-size: 19px;
+
+        }
+
+        .booking-card p {
+
+            font-size: 14px;
+
+            margin: 8px 0;
+
+        }
+
+        .actions {
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+        .actions button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            font-size: 16px;
+
+        }
+
+        footer {
+
+            font-size: 14px;
+
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>El Classico Beach</h1>
+
+    <p>Admin Booking Dashboard</p>
+
+</header>
+
+<main>
+
+    <section class="dashboard">
+
+        <div class="dashboard-header">
+
+    <h2>Restaurant Bookings 📋</h2>
+
+</div>
+
+<button class="refresh-btn" onclick="loadBookings()">
+
+    🔄 Refresh Bookings
+
+</button>
+
+<div id="bookingsList">
+
+    <p>Loading bookings...</p>
+
+</div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <p>© 2026 El Classico Beach - Chez West</p>
+
+</footer>
+
+<script>
+
+const SUPABASE_URL = "https://bggvlpsehntmrxkdrsie.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_YQTwXehHVdNjOv-LsAjnUQ_T1UZEEDi";
+
+async function loadBookings() {
+
+    const bookingsList = document.getElementById("bookingsList");
+
+    bookingsList.innerHTML = "<p>Loading bookings...</p>";
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    if (!adminToken) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/bookings?select=*&order=id.desc`,
+
+            {
+
+                method: "GET",
+
+                headers: {
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`
+
+                }
+
+            }
+
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            console.error("Supabase error:", result);
+
+            bookingsList.innerHTML = `
+
+                <p style="color:red;">
+
+                    ❌ Could not load bookings.
+
+                </p>
+
+                <p style="font-size:14px;">
+
+                    ${result.message || result.error_description || "Unknown error"}
+
+                </p>
+
+            `;
+
+            return;
+
+        }
+
+        const bookings = result;
+
+        if (bookings.length === 0) {
+
+            bookingsList.innerHTML = `
+
+                <p>📭 No bookings found.</p>
+
+            `;
+
+            return;
+
+        }
+
+        bookingsList.innerHTML = "";
+
+        bookings.forEach(booking => {
+
+            const status = booking.status || "Pending";
+
+            bookingsList.innerHTML += `
+
+                <div class="booking-card">
+
+                    <h3>Booking #${booking.id}</h3>
+
+                    <p>
+
+                        <strong>Name:</strong>
+
+                        ${booking.name}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Phone:</strong>
+
+                        ${booking.phone}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Date:</strong>
+
+                        ${booking.date}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Time:</strong>
+
+                        ${booking.time}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Guests:</strong>
+
+                        ${booking.guests}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Special Request:</strong>
+
+                        ${booking.message || "None"}
+
+                    </p>
+
+                    <span class="status ${status.toLowerCase()}">
+
+                        ${status}
+
+                    </span>
+
+                    <div class="actions">
+
+                        <button
+
+                            class="confirm-btn"
+
+                            onclick="updateStatus(${booking.id}, 'Confirmed')">
+
+                            ✅ Confirm
+
+                        </button>
+
+                        <button
+
+                            class="cancel-btn"
+
+                            onclick="updateStatus(${booking.id}, 'Cancelled')">
+
+                            ❌ Cancel
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        bookingsList.innerHTML = `
+
+            <p style="color:red;">
+
+                ❌ Could not connect to Supabase.
+
+            </p>
+
+            <p>${error.message}</p>
+
+        `;
+
+    }
+
+}
+
+async function updateStatus(id, newStatus) {
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    if (!adminToken) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/bookings?id=eq.${id}`,
+
+            {
+
+                method: "PATCH",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`,
+
+                    "Prefer": "return=minimal"
+
+                },
+
+                body: JSON.stringify({
+
+                    status: newStatus
+
+                })
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        alert(`Booking ${newStatus.toLowerCase()} successfully!`);
+
+        loadBookings();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("❌ Could not update booking.");
+
+    }
+
+}
+
+loadBookings();
+
+</script>
+
+</body>
+
+</html>
