@@ -10,23 +10,25 @@ bookingForm.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
-    const booking = {
+ const booking = {
 
-        name: document.getElementById("name").value,
+    name: document.getElementById("name").value,
 
-        phone: document.getElementById("phone").value,
+    phone: document.getElementById("phone").value,
 
-        date: document.getElementById("date").value,
+    email: document.getElementById("email").value.trim(),
 
-        time: document.getElementById("time").value,
+    date: document.getElementById("date").value,
 
-        guests: Number(document.getElementById("guests").value),
+    time: document.getElementById("time").value,
 
-        message: document.getElementById("message").value,
+    guests: Number(document.getElementById("guests").value),
 
-        status: "Pending"
+    message: document.getElementById("message").value,
 
-    };
+    status: "Pending"
+
+};
 
     try {
 
