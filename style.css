@@ -1,3 +1,5 @@
+/* ===== GENERAL SETTINGS ===== */
+
 * {
 
     box-sizing: border-box;
@@ -8,59 +10,123 @@
 
 }
 
+:root {
+
+    --navy: #071b2c;
+
+    --navy-light: #102b40;
+
+    --gold: #d6ad60;
+
+    --gold-light: #f0d9a5;
+
+    --white: #ffffff;
+
+    --background: #f5f4f0;
+
+    --text: #263442;
+
+    --muted: #687583;
+
+}
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
 body {
 
     font-family: Arial, sans-serif;
 
-    background: #f4f4f4;
+    background: var(--background);
 
-    color: #222;
+    color: var(--text);
+
+    line-height: 1.6;
 
 }
 
+/* ===== HEADER ===== */
+
 header {
 
-    background: #111;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
 
-    color: white;
+    color: var(--white);
 
     text-align: center;
 
-    padding: 30px 15px;
+    padding: 45px 20px;
+
+    border-bottom: 4px solid var(--gold);
 
 }
 
 header h1 {
 
+    color: var(--gold);
+
+    font-size: clamp(28px, 5vw, 42px);
+
+    letter-spacing: 1.5px;
+
     margin-bottom: 8px;
 
 }
 
-main {
+header p {
 
-    padding: 30px 15px;
+    color: #e3e8ed;
+
+    font-size: 16px;
 
 }
 
+/* ===== MAIN SECTION ===== */
+
+main {
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 45px 20px;
+
+}
+
+/* ===== BOOKING CARD ===== */
+
 .booking-box {
 
-    max-width: 500px;
+    width: 100%;
 
-    margin: auto;
+    max-width: 600px;
 
-    background: white;
+    margin: 0 auto;
 
-    padding: 30px;
+    background: var(--white);
 
-    border-radius: 12px;
+    padding: 35px;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-radius: 16px;
+
+    border-top: 5px solid var(--gold);
+
+    box-shadow: 0 12px 35px rgba(7, 27, 44, 0.10);
 
 }
 
 .booking-box h2 {
 
+    color: var(--navy);
+
     text-align: center;
+
+    font-size: 28px;
 
     margin-bottom: 8px;
 
@@ -68,11 +134,15 @@ main {
 
 .booking-box p {
 
+    color: var(--muted);
+
     text-align: center;
 
     margin-bottom: 25px;
 
 }
+
+/* ===== FORM ===== */
 
 form {
 
@@ -84,11 +154,15 @@ form {
 
 label {
 
-    margin-top: 15px;
+    color: var(--navy);
 
-    margin-bottom: 6px;
+    margin-top: 16px;
 
-    font-weight: bold;
+    margin-bottom: 7px;
+
+    font-weight: 600;
+
+    font-size: 14px;
 
 }
 
@@ -98,66 +172,332 @@ select,
 
 textarea {
 
-    padding: 12px;
+    width: 100%;
 
-    border: 1px solid #ccc;
+    padding: 13px 14px;
 
-    border-radius: 6px;
+    border: 1px solid #d7dde2;
+
+    border-radius: 8px;
+
+    background: #fcfcfb;
+
+    color: var(--text);
+
+    font-family: inherit;
 
     font-size: 16px;
+
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+}
+
+input:focus,
+
+select:focus,
+
+textarea:focus {
+
+    outline: none;
+
+    border-color: var(--gold);
+
+    box-shadow: 0 0 0 3px rgba(214, 173, 96, 0.20);
+
+}
+
+input::placeholder,
+
+textarea::placeholder {
+
+    color: #9aa3ac;
 
 }
 
 textarea {
 
-    min-height: 90px;
+    min-height: 100px;
 
     resize: vertical;
 
 }
 
+/* ===== BUTTONS ===== */
+
 button {
 
     margin-top: 25px;
 
-    padding: 14px;
+    padding: 15px 20px;
 
     border: none;
 
-    border-radius: 6px;
+    border-radius: 8px;
 
-    background: #111;
+    background: var(--gold);
 
-    color: white;
+    color: var(--navy);
 
-    font-size: 17px;
+    font-size: 16px;
+
+    font-weight: bold;
 
     cursor: pointer;
+
+    transition: background 0.2s, transform 0.2s;
 
 }
 
 button:hover {
 
-    background: #333;
+    background: var(--gold-light);
+
+    transform: translateY(-1px);
 
 }
+
+button:focus-visible {
+
+    outline: 3px solid var(--navy);
+
+    outline-offset: 3px;
+
+}
+
+/* ===== BOOKING CONFIRMATION ===== */
 
 #confirmation {
 
     margin-top: 20px;
 
+    padding: 12px;
+
     text-align: center;
 
     font-weight: bold;
 
+    border-radius: 8px;
+
 }
+
+/* ===== FOOTER ===== */
 
 footer {
 
+    background: var(--navy);
+
+    color: #e3e8ed;
+
     text-align: center;
 
-    padding: 25px;
+    padding: 25px 15px;
 
     margin-top: 20px;
+
+    border-top: 3px solid var(--gold);
+
+}
+
+footer p {
+
+    font-size: 14px;
+
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+
+@media (max-width: 600px) {
+
+    header {
+
+        padding: 32px 15px;
+
+    }
+
+    main {
+
+        padding: 25px 12px;
+
+    }
+
+    .booking-box {
+
+        padding: 24px 18px;
+
+        border-radius: 12px;
+
+    }
+
+    .booking-box h2 {
+
+        font-size: 24px;
+
+    }
+
+    input,
+
+    select,
+
+    textarea {
+
+        font-size: 16px;
+
+    }
+
+    button {
+
+        width: 100%;
+
+        padding: 15px;
+
+    }
+
+}/* Professional restaurant header */
+
+.site-header {
+
+    background: #071b2c;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px 15px;
+
+    border-bottom: 3px solid #d6ad60;
+
+}
+
+.site-header h1 {
+
+    color: #d6ad60;
+
+    font-size: clamp(28px, 5vw, 42px);
+
+    margin-bottom: 5px;
+
+}
+
+.site-header p {
+
+    color: #ffffff;
+
+}
+
+/* Hero section with restaurant photo */
+
+.hero {
+
+    min-height: 430px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px 20px;
+
+    text-align: center;
+
+    color: white;
+
+    background:
+
+        linear-gradient(
+
+            rgba(4, 20, 33, 0.65),
+
+            rgba(4, 20, 33, 0.75)
+
+        ),
+
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85");
+
+    background-size: cover;
+
+    background-position: center;
+
+}
+
+.hero-content {
+
+    max-width: 750px;
+
+}
+
+.hero-label {
+
+    color: #f0d9a5;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    font-size: 13px;
+
+    margin-bottom: 15px;
+
+}
+
+.hero-content h2 {
+
+    font-size: clamp(32px, 5vw, 55px);
+
+    line-height: 1.2;
+
+    margin-bottom: 20px;
+
+}
+
+.hero-content > p:not(.hero-label) {
+
+    font-size: 17px;
+
+    margin-bottom: 28px;
+
+}
+
+.hero-button {
+
+    display: inline-block;
+
+    background: #d6ad60;
+
+    color: #071b2c;
+
+    text-decoration: none;
+
+    padding: 14px 28px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+
+    transition: background 0.2s;
+
+}
+
+.hero-button:hover {
+
+    background: #f0d9a5;
+
+}
+
+@media (max-width: 600px) {
+
+    .hero {
+
+        min-height: 360px;
+
+        padding: 35px 18px;
+
+    }
+
+    .hero-content > p:not(.hero-label) {
+
+        font-size: 15px;
+
+    }
 
 }
