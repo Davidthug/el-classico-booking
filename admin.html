@@ -683,7 +683,6 @@ input:focus, select:focus, textarea:focus {
 
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
 
@@ -980,83 +979,63 @@ async function updateStatus(id, newStatus) {
 
         }
 
-        // STEP 2: Send email to the customer
+   // STEP 2: Send email to the customer
 
-        if (booking.email) {
+if (booking.email) {
 
-            const emailResponse = await fetch(
+    try {
 
-              emailjs.init({
+        await emailjs.send(
 
-    publicKey: "uFiGmelSOYM30mEbt"
+            "service_3ndpq3e",
 
-});
+            "template_ov6tkup",
 
-const emailResponse = await emailjs.send(
+            {
 
-    "service_3ndpq3e",
+                to_email: booking.email,
 
-    "template_ov6tkup",
+                to_name: booking.name,
 
-    {
+                booking_date: booking.date,
 
-        to_email: booking.email,
+                booking_time: booking.time,
 
-        to_name: booking.name,
-
-        booking_date: booking.date,
-
-        booking_time: booking.time,
-
-        booking_status: newStatus
-
-    }
-
-);
-
-            );
-
-            if (!emailResponse.ok) {
-
-                const errorDetails = await emailResponse.text();
-
-                console.error("Email error:", errorDetails);
-
-                alert(
-
-                    `Booking status updated to ${newStatus}, ` +
-
-                    "but the email could not be sent. Check the console."
-
-                );
-
-                loadBookings();
-
-                return;
+                booking_status: newStatus
 
             }
 
-            alert(
+        );
 
-                `Booking ${newStatus.toLowerCase()} successfully! ` +
+        alert(
 
-                "Customer email request sent."
+            `Booking ${newStatus.toLowerCase()} successfully! Customer email sent.`
 
-            );
+        );
 
-        } else {
+    } catch (emailError) {
 
-            alert(
+        console.error("Email error:", emailError);
 
-                `Booking ${newStatus.toLowerCase()} successfully, ` +
+        alert(
 
-                "but this booking has no email address."
+            `Booking ${newStatus.toLowerCase()} successfully, but the email could not be sent.`
 
-            );
+        );
 
-        }
+    }
 
-        loadBookings();
+} else {
+
+    alert(
+
+        `Booking ${newStatus.toLowerCase()} successfully, but this booking has no email address.`
+
+    );
+
+}
+
+loadBookings();
 
     } catch (error) {
 
