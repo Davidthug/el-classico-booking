@@ -683,6 +683,8 @@ input:focus, select:focus, textarea:focus {
 
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 
 const SUPABASE_URL = "https://bggvlpsehntmrxkdrsie.supabase.co";
@@ -984,37 +986,33 @@ async function updateStatus(id, newStatus) {
 
             const emailResponse = await fetch(
 
-                `${SUPABASE_URL}/functions/v1/send-booking-sms`,
+              emailjs.init({
 
-                {
+    publicKey: "uFiGmelSOYM30mEbt"
 
-                    method: "POST",
+});
 
-                    headers: {
+const emailResponse = await emailjs.send(
 
-                        "Content-Type": "application/json",
+    "service_3ndpq3e",
 
-                        "apikey": SUPABASE_KEY,
+    "template_ov6tkup",
 
-                        "Authorization": `Bearer ${adminToken}`
+    {
 
-                    },
+        to_email: booking.email,
 
-                    body: JSON.stringify({
+        to_name: booking.name,
 
-                        email: booking.email,
+        booking_date: booking.date,
 
-                        name: booking.name,
+        booking_time: booking.time,
 
-                        status: newStatus,
+        booking_status: newStatus
 
-                        bookingDate: booking.date,
+    }
 
-                        bookingTime: booking.time
-
-                    })
-
-                }
+);
 
             );
 
