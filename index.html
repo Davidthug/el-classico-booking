@@ -162,6 +162,262 @@
 
     <script src="script.js"></script>
 
+    <script>
+
+    // CUSTOMER REVIEWS
+
+const reviewForm = document.getElementById("reviewForm");
+
+const reviewMessage = document.getElementById("reviewMessage");
+
+const approvedReviews = document.getElementById("approvedReviews");
+
+// Submit a customer review
+
+reviewForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const customerName =
+
+        document.getElementById("reviewName").value.trim();
+
+    const rating =
+
+        Number(document.getElementById("reviewRating").value);
+
+    const comment =
+
+        document.getElementById("reviewComment").value.trim();
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/customer_reviews`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Prefer": "return=minimal"
+
+                },
+
+                body: JSON.stringify({
+
+                    customer_name: customerName,
+
+                    rating: rating,
+
+                    comment: comment,
+
+                    status: "Pending"
+
+                })
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        reviewMessage.textContent =
+
+            "✅ Thank you! Your review has been submitted for approval.";
+
+        reviewMessage.style.color = "green";
+
+        reviewForm.reset();
+
+    } catch (error) {
+
+        console.error("Review error:", error);
+
+        reviewMessage.textContent =
+
+            "❌ Could not submit your review. Please try again.";
+
+        reviewMessage.style.color = "red";
+
+    }
+
+});
+
+// Load approved customer reviews
+
+async function loadApprovedReviews() {
+
+    approvedReviews.innerHTML = "<p>Loading reviews...</p>";
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/customer_reviews?select=customer_name,rating,comment,created_at&status=eq.Approved&order=created_at.desc`,
+
+            {
+
+                headers: {
+
+                    "apikey": SUPABASE_KEY
+
+                }
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        const reviews = await response.json();
+
+        approvedReviews.innerHTML = "";
+
+        if (reviews.length === 0) {
+
+            approvedReviews.textContent =
+
+                "No approved reviews yet. Be the first to share your experience!";
+
+            return;
+
+        }
+
+        reviews.forEach(review => {
+
+            const card = document.createElement("div");
+
+            card.className = "review-card";
+
+            const name = document.createElement("h3");
+
+            name.textContent = review.customer_name;
+
+            const stars = document.createElement("p");
+
+            stars.className = "review-stars";
+
+            stars.textContent =
+
+                "⭐".repeat(review.rating);
+
+            const comment = document.createElement("p");
+
+            comment.textContent = review.comment;
+
+            card.appendChild(name);
+
+            card.appendChild(stars);
+
+            card.appendChild(comment);
+
+            approvedReviews.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error("Loading reviews error:", error);
+
+        approvedReviews.textContent =
+
+            "Could not load customer reviews.";
+
+    }
+
+}
+
+loadApprovedReviews();
+
+</script>
+
+<!-- CUSTOMER REVIEWS SECTION -->
+
+<section class="reviews-section">
+
+    <h2>⭐ Customer Reviews</h2>
+
+    <p>Share your experience at El Classico Beach.</p>
+
+    <form id="reviewForm">
+
+        <input
+
+            type="text"
+
+            id="reviewName"
+
+            placeholder="Your Name"
+
+            minlength="2"
+
+            maxlength="100"
+
+            required
+
+        >
+
+        <label for="reviewRating">Your Rating:</label>
+
+        <select id="reviewRating" required>
+
+            <option value="">Choose your rating</option>
+
+            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+
+            <option value="4">⭐⭐⭐⭐ Very Good</option>
+
+            <option value="3">⭐⭐⭐ Good</option>
+
+            <option value="2">⭐⭐ Fair</option>
+
+            <option value="1">⭐ Poor</option>
+
+        </select>
+
+        <textarea
+
+            id="reviewComment"
+
+            placeholder="Write your review..."
+
+            minlength="3"
+
+            maxlength="1000"
+
+            required
+
+        ></textarea>
+
+        <button type="submit">Submit Review</button>
+
+        <p id="reviewMessage" role="status"></p>
+
+    </form>
+
+    <div id="approvedReviews">
+
+        <p>Loading customer reviews...</p>
+
+    </div>
+
+</section>
+
 </body>
 
 </html>

@@ -501,3 +501,539 @@ footer p {
     }
 
 }
+
+.booking-filters {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin: 20px 0;
+
+    flex-wrap: wrap;
+
+}
+
+.booking-filters input,
+
+.booking-filters select {
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    background: white;
+
+}
+
+.booking-filters input {
+
+    flex: 1;
+
+    min-width: 200px;
+
+}
+
+.booking-filters select {
+
+    min-width: 160px;
+
+}
+
+@media (max-width: 600px) {
+
+    .booking-filters {
+
+        flex-direction: column;
+
+    }
+
+    .booking-filters input,
+
+    .booking-filters select {
+
+        width: 100%;
+
+        box-sizing: border-box;
+
+    }
+
+}
+
+.calendar-section {
+background: white;
+padding: 24px;
+margin: 25px 0;
+border-radius: 14px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-section h2 {
+color: #101d35;
+margin-bottom: 10px;
+}
+
+.calendar-section p {
+color: #555;
+margin-bottom: 15px;
+}
+
+#bookingCalendar {
+padding: 12px;
+border: 1px solid #ccc;
+border-radius: 8px;
+font-size: 15px;
+max-width: 100%;
+}
+
+.calendar-section button {
+background: #101d35;
+color: white;
+border: none;
+padding: 12px 16px;
+border-radius: 8px;
+margin: 8px;
+cursor: pointer;
+}
+
+.calendar-section button:hover {
+background: #d8b66a;
+color: #101d35;
+}
+
+#calendarMessage {
+padding: 12px;
+background: #f3f6fa;
+border-radius: 8px;
+margin-top: 15px;
+}
+
+@media (max-width: 600px) {
+.calendar-section {
+padding: 16px;
+}
+#bookingCalendar {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+.calendar-section button {
+
+    margin: 12px 0 0;
+
+    width: 100%;
+
+}
+
+}
+
+/* MONTHLY BOOKING REPORT */
+
+.monthly-report {
+
+    background: white;
+
+    padding: 24px;
+
+    margin: 25px 0;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+}
+
+.monthly-report h2 {
+
+    color: #101d35;
+
+    margin-bottom: 18px;
+
+}
+
+.monthly-report label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+}
+
+.monthly-report input {
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    max-width: 100%;
+
+}
+
+.monthly-report button {
+
+    background: #101d35;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 16px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    margin: 8px;
+
+}
+
+.monthly-report button:hover {
+
+    background: #d8b66a;
+
+    color: #101d35;
+
+}
+
+.report-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+}
+
+.report-card {
+
+    background: #f3f6fa;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+}
+
+.report-card h3 {
+
+    font-size: 14px;
+
+    color: #555;
+
+}
+
+.report-card p {
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    color: #101d35;
+
+    margin-top: 10px;
+
+}
+
+@media (max-width: 600px) {
+
+    .monthly-report {
+
+        padding: 16px;
+
+    }
+
+    .report-stats {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    }
+
+    .monthly-report button {
+
+        width: 100%;
+
+        margin: 10px 0;
+
+    }
+
+}
+
+/* TABLE MANAGEMENT */
+
+.table-management {
+
+    background: white;
+
+    padding: 24px;
+
+    margin: 25px 0;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+}
+
+.table-management h2 {
+
+    color: #101d35;
+
+    margin-bottom: 10px;
+
+}
+
+.table-management > p {
+
+    color: #555;
+
+    margin-bottom: 18px;
+
+}
+
+.restaurant-tables {
+
+    display: grid;
+
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    gap: 12px;
+
+}
+
+.restaurant-table {
+
+    padding: 16px 8px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    border: 1px solid #ddd;
+
+    background: #f3f6fa;
+
+}
+
+.restaurant-table h3 {
+
+    margin-bottom: 8px;
+
+    color: #101d35;
+
+}
+
+.restaurant-table p {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+.restaurant-table.available {
+
+    border-color: #198754;
+
+    background: #e8f7ee;
+
+}
+
+.restaurant-table.reserved {
+
+    border-color: #d8a000;
+
+    background: #fff5d6;
+
+}
+
+.restaurant-table.occupied {
+
+    border-color: #dc3545;
+
+    background: #fdebec;
+
+}
+
+#tableMessage {
+
+    margin-top: 18px;
+
+    padding: 12px;
+
+    background: #f3f6fa;
+
+    border-radius: 8px;
+
+}
+
+@media (max-width: 600px) {
+
+    .table-management {
+
+        padding: 16px;
+
+    }
+
+    .restaurant-tables {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+/* CUSTOMER REVIEWS */
+
+.reviews-section {
+
+    max-width: 700px;
+
+    margin: 40px auto;
+
+    padding: 25px;
+
+    background: white;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+.reviews-section h2 {
+
+    color: #101d35;
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
+}
+
+.reviews-section > p {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+}
+
+#reviewForm {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+#reviewForm input,
+
+#reviewForm select,
+
+#reviewForm textarea {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+}
+
+#reviewForm textarea {
+
+    min-height: 120px;
+
+    resize: vertical;
+
+}
+
+#reviewForm button {
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #101d35;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+#reviewForm button:hover {
+
+    background: #243d65;
+
+}
+
+#reviewMessage {
+
+    text-align: center;
+
+    font-weight: bold;
+
+}
+
+.review-card {
+
+    padding: 16px;
+
+    margin-top: 15px;
+
+    background: #f3f6fa;
+
+    border-radius: 10px;
+
+}
+
+.review-card h3 {
+
+    margin-bottom: 8px;
+
+}
+
+.review-stars {
+
+    color: #e5a000;
+
+    margin-bottom: 8px;
+
+}
+
+@media (max-width: 600px) {
+
+    .reviews-section {
+
+        margin: 20px 12px;
+
+        padding: 18px;
+
+    }
+
+}

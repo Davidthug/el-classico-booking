@@ -347,7 +347,7 @@
 
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 
     gap: 20px;
 
@@ -359,29 +359,35 @@
 
     background: white;
 
-    padding: 25px;
+    padding: 22px;
 
     border-radius: 12px;
 
-    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-left: 5px solid #d8b66a;
 
 }
 
 .stat-card h3 {
 
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 
-    font-size: 18px;
+    font-size: 15px;
+
+    color: #555;
 
 }
 
 .stat-card p {
 
-    font-size: 32px;
+    font-size: 30px;
 
     font-weight: bold;
+
+    color: #101d35;
+
+    margin: 0;
 
 }
 
@@ -389,7 +395,21 @@
 
     .stats-container {
 
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax (0,1fr));
+
+        gap: 12px;
+
+    }
+
+    .stat-card {
+
+        padding: 16px;
+
+    }
+
+    .stat-card p {
+
+        font-size: 24px;
 
     }
 
@@ -667,6 +687,132 @@ input:focus, select:focus, textarea:focus {
 
 </div>
 
+<div class="booking-filters">
+
+    <input
+
+        type="text"
+
+        id="searchBooking"
+
+        placeholder="🔍 Search by name or phone..."
+
+    >
+
+    <select id="statusFilter">
+
+    <option value="all">All Bookings</option>
+
+    <option value="Pending">Pending</option>
+
+    <option value="Confirmed">Confirmed</option>
+
+    <option value="Cancelled">Cancelled</option>
+
+</select>
+
+</div>
+
+<!-- MONTHLY BOOKING REPORT -->
+
+<div class="monthly-report">
+
+    <h2>📊 Monthly Booking Report</h2>
+
+    <label for="reportMonth">Select Month:</label>
+
+    <input type="month" id="reportMonth">
+
+    <button type="button" onclick="generateMonthlyReport()">
+
+        Generate Report
+
+    </button>
+
+    <div class="report-stats">
+
+        <div class="report-card">
+
+            <h3>Total Bookings</h3>
+
+            <p id="monthlyTotal">0</p>
+
+        </div>
+
+        <div class="report-card">
+
+            <h3>Confirmed</h3>
+
+            <p id="monthlyConfirmed">0</p>
+
+        </div>
+
+        <div class="report-card">
+
+            <h3>Pending</h3>
+
+            <p id="monthlyPending">0</p>
+
+        </div>
+
+        <div class="report-card">
+
+            <h3>Cancelled</h3>
+
+            <p id="monthlyCancelled">0</p>
+
+        </div>
+
+    </div>
+
+    <p id="monthlyReportMessage">
+
+        Select a month to view its booking report.
+
+    </p>
+
+</div>
+
+<!-- TABLE MANAGEMENT -->
+
+<div class="table-management">
+
+    <h2>🪑 Table Management</h2>
+
+    <p>Manage the restaurant's 30 tables.</p>
+
+    <div id="restaurantTables" class="restaurant-tables">
+
+        <p>Loading tables...</p>
+
+    </div>
+
+    <p id="tableMessage" role="status">
+
+        Loading restaurant tables...
+
+    </p>
+
+</div>
+
+<div class="calendar-section">
+
+    <h2>📅 Booking Calendar</h2>
+
+    <p>Select a date to view bookings for that day.</p>
+
+    <input type="date" id="bookingCalendar">
+
+<button type="button" onclick="showAllCalendarBookings()">
+
+    Show All Dates
+
+</button>
+
+<p id="calendarMessage">Select a date to view bookings.</p>
+
+</div>
+
 <div id="bookingsList">
 
     <p>Loading bookings...</p>
@@ -806,103 +952,137 @@ document.getElementById("cancelledBookings").textContent = cancelled;
 
         bookings.forEach(booking => {
 
-            const status = booking.status || "Pending";
+    const status = booking.status || "Pending";
 
-            bookingsList.innerHTML += `
+    let tableOptions = `
 
-                <div class="booking-card">
+        <option value="">Select a table</option>
 
-                    <h3>Booking #${booking.id}</h3>
+    `;
 
-                    <p>
+    for (let i = 1; i <= 30; i++) {
 
-                        <strong>Name:</strong>
+        const selected = Number(booking.table_number) === i
 
-                        ${booking.name}
+            ? "selected"
 
-                    </p>
+            : "";
 
-                    <p>
+        tableOptions += `
 
-                        <strong>Phone:</strong>
+            <option value="${i}" ${selected}>
 
-                        ${booking.phone}
+                Table ${i}
 
-                    </p>
+            </option>
 
-                    <p>
+        `;
 
-                        <strong>Date:</strong>
+    }
 
-                        ${booking.date}
+    bookingsList.innerHTML += `
 
-                    </p>
+        <div class="booking-card">
 
-                    <p>
+            <h3>Booking #${booking.id}</h3>
 
-                        <strong>Time:</strong>
+            <p><strong>Name:</strong> ${booking.name}</p>
 
-                        ${booking.time}
+            <p><strong>Phone:</strong> ${booking.phone}</p>
 
-                    </p>
+            <p><strong>Date:</strong> ${booking.date}</p>
 
-                    <p>
+            <p><strong>Time:</strong> ${booking.time}</p>
 
-                        <strong>Guests:</strong>
+            <p><strong>Guests:</strong> ${booking.guests}</p>
 
-                        ${booking.guests}
+            <p><strong>Special Request:</strong> ${booking.message || "None"}</p>
 
-                    </p>
+            <p>
 
-                    <p>
+                <strong>Assigned Table:</strong>
 
-                        <strong>Special Request:</strong>
+                ${booking.table_number
 
-                        ${booking.message || "None"}
+                    ? "Table " + booking.table_number
 
-                    </p>
+                    : "Not assigned"}
 
-                    <span class="status ${status.toLowerCase()}">
+            </p>
 
-                        ${status}
+            <div class="table-assignment">
 
-                    </span>
+                <select id="table-${booking.id}">
 
-                    <div class="actions">
+                    ${tableOptions}
 
-                        <button
+                </select>
 
-                            class="confirm-btn"
+                <button
 
-                            onclick="updateStatus(${booking.id}, 'Confirmed')">
+                    onclick="assignTable(${booking.id})">
 
-                            ✅ Confirm
+                    🪑 Assign Table
 
-                        </button>
+                </button>
 
-                        <button
+            </div>
 
-                            class="cancel-btn"
+            <span class="status ${status.toLowerCase()}">
 
-                            onclick="updateStatus(${booking.id}, 'Cancelled')">
+                ${status}
 
-                            ❌ Cancel
+            </span>
 
-                        </button>
+            <div class="actions">
 
-                        <button class="delete-btn" onclick="deleteBooking(${booking.id})">
+                <button
 
-    🗑️ Delete
+    class="occupied-btn"
+
+    onclick="markTableOccupied(${booking.id})">
+
+    🪑 Mark as Occupied
 
 </button>
 
-                    </div>
+                <button
 
-                </div>
+                    class="confirm-btn"
 
-            `;
+                    onclick="updateStatus(${booking.id}, 'Confirmed')">
 
-        });
+                    ✅ Confirm
+
+                </button>
+
+                <button
+
+                    class="cancel-btn"
+
+                    onclick="updateStatus(${booking.id}, 'Cancelled')">
+
+                    ❌ Cancel
+
+                </button>
+
+                <button
+
+                    class="delete-btn"
+
+                    onclick="deleteBooking(${booking.id})">
+
+                    🗑️ Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+});
 
     } catch (error) {
 
@@ -923,6 +1103,7 @@ document.getElementById("cancelledBookings").textContent = cancelled;
     }
 
 }
+
 
 async function updateStatus(id, newStatus) {
 
@@ -1117,6 +1298,550 @@ async function deleteBooking(id) {
         console.error(error);
 
         alert("❌ Could not delete booking.");
+
+    }
+
+}
+
+function filterBookings() {
+
+    const searchInput = document
+
+        .getElementById("searchBooking")
+
+        .value.toLowerCase()
+
+        .trim();
+
+    const statusFilter = document
+
+        .getElementById("statusFilter")
+
+        .value.toLowerCase();
+
+    const bookingCards = document.querySelectorAll(".booking-card");
+
+    bookingCards.forEach(card => {
+
+        const cardText = card.textContent.toLowerCase();
+
+        const statusElement = card.querySelector(".status");
+
+        const bookingStatus = statusElement
+
+            ? statusElement.textContent.trim().toLowerCase()
+
+            : "";
+
+        const matchesSearch = cardText.includes(searchInput);
+
+        const matchesStatus =
+
+            statusFilter === "all" ||
+
+            bookingStatus === statusFilter;
+
+        card.style.display =
+
+            matchesSearch && matchesStatus ? "" : "none";
+
+    });
+
+}
+
+document.getElementById("searchBooking").addEventListener(
+
+    "input",
+
+    filterBookings
+
+);
+
+document.getElementById("statusFilter").addEventListener(
+
+    "change",
+
+    filterBookings
+
+);
+
+function showAllCalendarBookings() {
+
+    document.getElementById("bookingCalendar").value = "";
+
+    document.getElementById("calendarMessage").textContent =
+
+        "Showing bookings for all dates.";
+
+    document.getElementById("searchBooking").value = "";
+
+    document.getElementById("statusFilter").value = "all";
+
+    filterBookings();
+
+}
+
+function filterBookingsByDate() {
+
+    const selectedDate = document.getElementById("bookingCalendar").value;
+
+    const calendarMessage = document.getElementById("calendarMessage");
+
+    if (!selectedDate) {
+
+        calendarMessage.textContent = "Select a date to view bookings.";
+
+        filterBookings();
+
+        return;
+
+    }
+
+    const bookingCards = document.querySelectorAll(".booking-card");
+
+    let found = 0;
+
+    bookingCards.forEach(function(card) {
+
+        const paragraphs = card.querySelectorAll("p");
+
+        let bookingDate = "";
+
+        paragraphs.forEach(function(paragraph) {
+
+            if (paragraph.textContent.includes("Date:")) {
+
+                bookingDate = paragraph.textContent
+
+                    .replace("Date:", "")
+
+                    .trim();
+
+            }
+
+        });
+
+        const matchesDate = bookingDate === selectedDate;
+
+        card.style.display = matchesDate ? "" : "none";
+
+        if (matchesDate) {
+
+            found++;
+
+        }
+
+    });
+
+    if (found > 0) {
+
+        calendarMessage.textContent =
+
+            found + " booking(s) found for " + selectedDate + ".";
+
+    } else {
+
+        calendarMessage.textContent =
+
+            "No bookings found for " + selectedDate + ".";
+
+    }
+
+}
+
+document.getElementById("bookingCalendar").addEventListener(
+
+    "change",
+
+    filterBookingsByDate
+
+);
+
+function generateMonthlyReport() {
+
+    const selectedMonth = document.getElementById("reportMonth").value;
+
+    const message = document.getElementById("monthlyReportMessage");
+
+    if (!selectedMonth) {
+
+        message.textContent = "Please select a month first.";
+
+        return;
+
+    }
+
+    const bookingCards = document.querySelectorAll(".booking-card");
+
+    let total = 0;
+
+    let confirmed = 0;
+
+    let pending = 0;
+
+    let cancelled = 0;
+
+    bookingCards.forEach(function(card) {
+
+        const paragraphs = card.querySelectorAll("p");
+
+        let bookingDate = "";
+
+        paragraphs.forEach(function(paragraph) {
+
+            if (paragraph.textContent.includes("Date:")) {
+
+                bookingDate = paragraph.textContent
+
+                    .replace("Date:", "")
+
+                    .trim();
+
+            }
+
+        });
+
+        if (bookingDate.substring(0, 7) === selectedMonth) {
+
+            total++;
+
+            const statusElement = card.querySelector(".status");
+
+            const status = statusElement
+
+                ? statusElement.textContent.trim().toLowerCase()
+
+                : "";
+
+            if (status === "confirmed") {
+
+                confirmed++;
+
+            } else if (status === "pending") {
+
+                pending++;
+
+            } else if (status === "cancelled") {
+
+                cancelled++;
+
+            }
+
+        }
+
+    });
+
+    document.getElementById("monthlyTotal").textContent = total;
+
+    document.getElementById("monthlyConfirmed").textContent = confirmed;
+
+    document.getElementById("monthlyPending").textContent = pending;
+
+    document.getElementById("monthlyCancelled").textContent = cancelled;
+
+    message.textContent =
+
+        "Report generated for " + selectedMonth + ".";
+
+}
+
+document.getElementById("reportMonth").value =
+
+    new Date().toISOString().slice(0, 7);
+
+async function loadRestaurantTables() {
+
+    const tablesContainer = document.getElementById("restaurantTables");
+
+    const tableMessage = document.getElementById("tableMessage");
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    if (!adminToken) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    tablesContainer.innerHTML = "<p>Loading tables...</p>";
+
+    try {
+
+        // Refresh expired occupied tables
+
+        const refreshResponse = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/rpc/refresh_table_statuses`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`
+
+                },
+
+                body: JSON.stringify({})
+
+            }
+
+        );
+
+        if (!refreshResponse.ok) {
+
+            throw new Error(await refreshResponse.text());
+
+        }
+
+        // Load all tables
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/restaurant_tables?select=table_number,status,occupied_until&order=table_number.asc`,
+
+            {
+
+                method: "GET",
+
+                headers: {
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`
+
+                }
+
+            }
+
+        );
+
+        const tables = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(tables.message || "Could not load tables.");
+
+        }
+
+        if (tables.length === 0) {
+
+            tablesContainer.innerHTML = "<p>No tables found.</p>";
+
+            return;
+
+        }
+
+        tablesContainer.innerHTML = tables.map(table => {
+
+            const status = (table.status || "Available").toLowerCase();
+
+            let timer = "";
+
+            if (status === "occupied" && table.occupied_until) {
+
+                const remaining = Math.max(
+
+                    0,
+
+                    Math.ceil(
+
+                        (new Date(table.occupied_until).getTime() - Date.now())
+
+                        / 60000
+
+                    )
+
+                );
+
+                timer = `<p>⏱️ ${remaining} minutes remaining</p>`;
+
+            }
+
+            return `
+
+                <div class="restaurant-table ${status}">
+
+                    <h3>Table ${table.table_number}</h3>
+
+                    <p>${table.status}</p>
+
+                    ${timer}
+
+                </div>
+
+            `;
+
+        }).join("");
+
+        tableMessage.textContent =
+
+            `${tables.length} restaurant tables loaded successfully.`;
+
+    } catch (error) {
+
+        console.error("Table loading error:", error);
+
+        tablesContainer.innerHTML =
+
+            "<p>Could not load tables. Please try again.</p>";
+
+        tableMessage.textContent = error.message;
+
+    }
+
+}
+
+loadRestaurantTables();
+
+// Refresh table statuses every minute
+
+setInterval(loadRestaurantTables, 60000);
+
+async function assignTable(bookingId) {
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    if (!adminToken) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    const tableSelect = document.getElementById(`table-${bookingId}`);
+
+    const tableNumber = Number(tableSelect.value);
+
+    if (!tableNumber) {
+
+        alert("Please select a table first.");
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/rpc/assign_table_to_booking`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`
+
+                },
+
+                body: JSON.stringify({
+
+                    p_booking_id: bookingId,
+
+                    p_table_number: tableNumber
+
+                })
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        alert(`✅ Table ${tableNumber} assigned successfully!`);
+
+        await loadBookings();
+
+        await loadRestaurantTables();
+
+    } catch (error) {
+
+        console.error("Table assignment error:", error);
+
+        alert("❌ " + error.message);
+
+    }
+
+}
+
+async function markTableOccupied(bookingId) {
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    if (!adminToken) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/rpc/mark_table_occupied`,
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`
+
+                },
+
+                body: JSON.stringify({
+
+                    p_booking_id: bookingId
+
+                })
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        alert("✅ Table marked as Occupied for 2 hours!");
+
+        await loadBookings();
+
+        await loadRestaurantTables();
+
+    } catch (error) {
+
+        console.error("Occupied error:", error);
+
+        alert("❌ " + error.message);
 
     }
 
