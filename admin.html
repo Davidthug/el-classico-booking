@@ -1891,6 +1891,12 @@ async function loadAdminReviews() {
 
         }
 
+        console.log("Admin token exists:", !!adminToken);
+
+console.log("Reviews response status:", response.status);
+
+console.log("Reviews response:", await response.clone().text());
+
 const reviews = await response.json();
 
         reviewsContainer.innerHTML = "";

@@ -162,7 +162,79 @@
 
     <script src="script.js"></script>
 
-    <script>
+        <!-- CUSTOMER REVIEWS SECTION -->
+
+<section class="reviews-section">
+
+    <h2>⭐ Customer Reviews</h2>
+
+    <p>Share your experience at El Classico Beach.</p>
+
+    <form id="reviewForm">
+
+        <input
+
+            type="text"
+
+            id="reviewName"
+
+            placeholder="Your Name"
+
+            minlength="2"
+
+            maxlength="100"
+
+            required
+
+        >
+
+        <label for="reviewRating">Your Rating:</label>
+
+        <select id="reviewRating" required>
+
+            <option value="">Choose your rating</option>
+
+            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+
+            <option value="4">⭐⭐⭐⭐ Very Good</option>
+
+            <option value="3">⭐⭐⭐ Good</option>
+
+            <option value="2">⭐⭐ Fair</option>
+
+            <option value="1">⭐ Poor</option>
+
+        </select>
+
+        <textarea
+
+            id="reviewComment"
+
+            placeholder="Write your review..."
+
+            minlength="3"
+
+            maxlength="1000"
+
+            required
+
+        ></textarea>
+
+        <button type="submit">Submit Review</button>
+
+        <p id="reviewMessage" role="status"></p>
+
+    </form>
+
+    <div id="approvedReviews">
+
+        <p>Loading customer reviews...</p>
+
+    </div>
+
+</section>
+
+<script>
 
     // CUSTOMER REVIEWS
 
@@ -345,78 +417,6 @@ async function loadApprovedReviews() {
 loadApprovedReviews();
 
 </script>
-
-<!-- CUSTOMER REVIEWS SECTION -->
-
-<section class="reviews-section">
-
-    <h2>⭐ Customer Reviews</h2>
-
-    <p>Share your experience at El Classico Beach.</p>
-
-    <form id="reviewForm">
-
-        <input
-
-            type="text"
-
-            id="reviewName"
-
-            placeholder="Your Name"
-
-            minlength="2"
-
-            maxlength="100"
-
-            required
-
-        >
-
-        <label for="reviewRating">Your Rating:</label>
-
-        <select id="reviewRating" required>
-
-            <option value="">Choose your rating</option>
-
-            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-
-            <option value="4">⭐⭐⭐⭐ Very Good</option>
-
-            <option value="3">⭐⭐⭐ Good</option>
-
-            <option value="2">⭐⭐ Fair</option>
-
-            <option value="1">⭐ Poor</option>
-
-        </select>
-
-        <textarea
-
-            id="reviewComment"
-
-            placeholder="Write your review..."
-
-            minlength="3"
-
-            maxlength="1000"
-
-            required
-
-        ></textarea>
-
-        <button type="submit">Submit Review</button>
-
-        <p id="reviewMessage" role="status"></p>
-
-    </form>
-
-    <div id="approvedReviews">
-
-        <p>Loading customer reviews...</p>
-
-    </div>
-
-</section>
 
 </body>
 
