@@ -1037,3 +1037,71 @@ padding: 16px;
     }
 
 }
+
+/* ADMIN CUSTOMER REVIEWS */
+
+.reviews-management {
+
+    background: white;
+
+    padding: 24px;
+
+    margin: 25px 0;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+}
+
+.reviews-management h2 {
+
+    color: #101d35;
+
+    margin-bottom: 15px;
+
+}
+
+.reviews-management .review-card {
+
+    border: 1px solid #ddd;
+
+    margin-bottom: 15px;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+}
+
+.reviews-management button {
+
+    padding: 10px 15px;
+
+    margin: 8px 8px 0 0;
+
+    border: none;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+}
+
+.reviews-management button:first-of-type {
+
+    background: #198754;
+
+    color: white;
+
+}
+
+.reviews-management button:last-of-type {
+
+    background: #dc3545;
+
+    color: white;
+
+}

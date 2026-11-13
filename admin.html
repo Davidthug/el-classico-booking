@@ -1847,7 +1847,209 @@ async function markTableOccupied(bookingId) {
 
 }
 
+// CUSTOMER REVIEWS MANAGEMENT
+
+async function loadAdminReviews() {
+
+    const reviewsContainer = document.getElementById("adminReviews");
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    if (!adminToken) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    reviewsContainer.innerHTML = "<p>Loading reviews...</p>";
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/customer_reviews?select=*&order=created_at.desc`,
+
+            {
+
+                headers: {
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`
+
+                }
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        console.log("Admin token exists:", !!adminToken);
+
+console.log("Reviews response status:", response.status);
+
+console.log("Reviews response:", await response.clone().text());
+
+const reviews = await response.json();
+
+        reviewsContainer.innerHTML = "";
+
+        if (reviews.length === 0) {
+
+            reviewsContainer.innerHTML = "<p>No customer reviews yet.</p>";
+
+            return;
+
+        }
+
+        reviews.forEach(review => {
+
+            const card = document.createElement("div");
+
+            card.className = "review-card";
+
+            const name = document.createElement("h3");
+
+            name.textContent = review.customer_name;
+
+            const stars = document.createElement("p");
+
+            stars.textContent = "⭐".repeat(review.rating);
+
+            const comment = document.createElement("p");
+
+            comment.textContent = review.comment;
+
+            const status = document.createElement("p");
+
+            status.textContent = "Status: " + review.status;
+
+            card.append(name, stars, comment, status);
+
+            if (review.status === "Pending") {
+
+                const approveButton = document.createElement("button");
+
+                approveButton.textContent = "✅ Approve";
+
+                approveButton.onclick = () =>
+
+                    updateReviewStatus(review.id, "Approved");
+
+                const rejectButton = document.createElement("button");
+
+                rejectButton.textContent = "❌ Reject";
+
+                rejectButton.onclick = () =>
+
+                    updateReviewStatus(review.id, "Rejected");
+
+                card.append(approveButton, rejectButton);
+
+            }
+
+            reviewsContainer.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error("Reviews loading error:", error);
+
+        reviewsContainer.innerHTML =
+
+            "<p>Could not load customer reviews: " +
+
+            error.message + "</p>";
+
+    }
+
+}
+
+// Approve or reject a review
+
+async function updateReviewStatus(reviewId, newStatus) {
+
+    const adminToken = localStorage.getItem("adminAccessToken");
+
+    try {
+
+        const response = await fetch(
+
+            `${SUPABASE_URL}/rest/v1/customer_reviews?id=eq.${reviewId}`,
+
+            {
+
+                method: "PATCH",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization": `Bearer ${adminToken}`,
+
+                    "Prefer": "return=minimal"
+
+                },
+
+                body: JSON.stringify({
+
+                    status: newStatus
+
+                })
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            throw new Error(await response.text());
+
+        }
+
+        alert("✅ Review " + newStatus.toLowerCase() + " successfully!");
+
+        await loadAdminReviews();
+
+    } catch (error) {
+
+        console.error("Review update error:", error);
+
+        alert("❌ Could not update review: " + error.message);
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", loadAdminReviews);
+
 </script>
+
+<!-- CUSTOMER REVIEWS MANAGEMENT -->
+
+<div class="reviews-management">
+
+    <h2>⭐ Customer Reviews Management</h2>
+
+    <p>Review and manage customer feedback.</p>
+
+    <div id="adminReviews">
+
+        <p>Loading customer reviews...</p>
+
+    </div>
+
+</div>
 
 </body>
 
